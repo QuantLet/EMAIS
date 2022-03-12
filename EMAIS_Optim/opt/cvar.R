@@ -1,5 +1,7 @@
 ### CVaR following Trimborn et. al (2018), Petukhina et. al (2018), ... (insert more sources!)
 
+M = 120
+
 cvar.opt = function(mu, sigma, alpha = 0.05, n = 10000, data, M){ #n is parameter for how many simulated weights will be drawn => the more the better but also the more time it will cost; data should be true historic returns but already considered with correct window M!
   w.sim = list() #placeholder for simulated weights
   for(j in 1:n){
@@ -18,6 +20,7 @@ cvar.opt = function(mu, sigma, alpha = 0.05, n = 10000, data, M){ #n is paramete
   for(j in 1:n){
     var[j] = quantile(p.r.sim[[j]], alpha) #get VaR for j-th set of weights
   }
+  cvar = c()
   for (j in 1:n){
     cvar[j] = mean(p.r.sim[[j]][p.r.sim[[j]] <= var[j]])
   }
